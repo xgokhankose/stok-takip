@@ -15,15 +15,24 @@ export default StyleSheet.create({
         backgroundColor:"#373737",
         padding:15,
         borderRadius:10,
-        color:"white"
     },
     button_container:{
-        backgroundColor:"#15ce3e",
+        backgroundColor:"#3C9C70",
         height:50,
         width:deviceSize.width-80,
         justifyContent:"center",
         alignItems:"center",
         borderRadius:10,
         marginTop:10
-    }
+    },
+    signup_button:{
+        margin:40,
+        
+    },
+    button_text:{
+        color:"white",
+        fontSize:15,
+        fontWeight:"bold"
+      },
+      
 })

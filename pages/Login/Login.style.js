@@ -15,6 +15,7 @@ export default StyleSheet.create({
         backgroundColor:"#373737",
         padding:15,
         borderRadius:10,
+        color:"white"
     },
     button_container:{
         backgroundColor:"#0058dd",
