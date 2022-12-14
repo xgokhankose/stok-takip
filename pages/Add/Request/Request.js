@@ -30,9 +30,7 @@ const Request = () => {
   const { displayName } = currentUser;
 
   const addData = async () => {
-    console.log(customerPhone.length);
-    console.log(customerName.length);
-    console.log(productCategory)
+    
     if (
       customerPhone.length < 6 ||
       customerName.length < 3 ||

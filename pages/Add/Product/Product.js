@@ -29,6 +29,7 @@ const Product = () => {
   const [productDescription, setProductDescription] = useState("");
   const [productCategory, setProductCategory] = useState("undefined");
   const [image, setImage] = useState(null);
+  const [picturePath,setPicturePath]= useState("")
 
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
@@ -43,7 +44,6 @@ const Product = () => {
 
     if (!result.canceled) {
       setImage(result.uri);
-      console.log(result);
     }
   };
 
@@ -75,8 +75,9 @@ const Product = () => {
       blobImage,
       metadata
     );
-
+    setPicturePath(uploadTask.metadata.fullPath)
     const result = await getDownloadURL(uploadTask.ref);
+    
     return result;
   };
 
@@ -96,6 +97,7 @@ const Product = () => {
         createdAt: new Date(),
         updatedAt: new Date(),
         isActive: true,
+        picturePath:picturePath
       });
       Alert.alert("Ürün başarıyla eklendi!");
     } catch (error) {

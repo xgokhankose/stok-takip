@@ -5,7 +5,6 @@ import {  signOut ,getAuth} from "firebase/auth";
 import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 const Home = (props) => {
-  console.log("home",getAuth().currentUser)
   const navigateProductCategory = () => {
     return props.navigation.navigate("ProductCategoryPage");
   };

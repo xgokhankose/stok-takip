@@ -15,13 +15,17 @@ import useGetData from "../../../hooks/useGetData";
 import { SelectList } from "react-native-dropdown-select-list";
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../../firebase-config";
-import { ref, uploadBytesResumable, getDownloadURL ,deleteObject} from "firebase/storage";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import useGetSingleData from "../../../hooks/useGetSingleData";
 
 const ProductEdit = (props) => {
   const { data } = useGetSingleData("products", props.route.params.id);
-  console.log(data);
 
   const category = "productCategory";
   const categoryData = useGetData(category);
@@ -31,10 +35,12 @@ const ProductEdit = (props) => {
   const [productDescription, setProductDescription] = useState("");
   const [productCategory, setProductCategory] = useState("undefined");
   const [image, setImage] = useState(null);
-  const [picture,setPicture] =useState(data.productPicture)
+
+  const [picture, setPicture] = useState(data.productPicture);
+  const [dbPicture, setDbPicture] = useState("");
+  const [picturePath, setPicturePath] = useState("");
 
   const { currentUser } = getAuth();
-  const { displayName } = currentUser;
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -46,7 +52,7 @@ const ProductEdit = (props) => {
 
     if (!result.canceled) {
       setImage(result.uri);
-      setPicture(result.uri)
+      setPicture(result.uri);
     }
   };
 
@@ -78,26 +84,47 @@ const ProductEdit = (props) => {
       blobImage,
       metadata
     );
+    setPicturePath(uploadTask.metadata.fullPath);
+    var result = await getDownloadURL(uploadTask.ref);
 
-    const result = await getDownloadURL(uploadTask.ref);
-    setPicture(result)
     return result;
   };
 
   const uptadeData = async () => {
     try {
       const pictureURL = await uploadImage();
-      const ref = doc(db, "products", props.route.params.id);
-      await setDoc(ref, {
-        productCategory: productCategory,
-        productName: productName,
-        productDescription: productDescription,
-        productPicture: picture,
-        addPerson: data.addPerson,
-        createdAt:data.createdAt,
-        isActive: data.isActive,
-        productPicture:pictureURL
-      });
+      console.log(!!pictureURL);
+
+      if (!!pictureURL) {
+        const ref = doc(db, "products", props.route.params.id);
+        await setDoc(ref, {
+          productCategory: productCategory,
+          productName: productName,
+          productDescription: productDescription,
+          productPicture: picture,
+          addPerson: data.addPerson,
+          createdAt: data.createdAt,
+          isActive: data.isActive,
+          productPicture: pictureURL,
+          picturePath: picturePath,
+        });
+        Alert.alert("Ürün başarıyla güncellendi!");
+      } else {
+        const ref = doc(db, "products", props.route.params.id);
+        await setDoc(ref, {
+          productCategory: productCategory,
+          productName: productName,
+          productDescription: productDescription,
+          productPicture: picture,
+          addPerson: data.addPerson,
+          createdAt: data.createdAt,
+          isActive: data.isActive,
+          productPicture: data.productPicture,
+          picturePath: data.picturePath,
+        });
+        Alert.alert("Ürün başarıyla güncellendi!");
+      }
+
       Alert.alert("Ürün başarıyla güncellendi!");
     } catch (error) {
       console.log(error);
@@ -108,7 +135,7 @@ const ProductEdit = (props) => {
     setProductName(data.productName),
       setProductDescription(data.productDescription),
       setProductCategory(data.productCategory);
-      setPicture(data.productPicture)
+    setPicture(data.productPicture);
   }, [data]);
   return (
     <KeyboardAvoidingView
@@ -147,7 +174,7 @@ const ProductEdit = (props) => {
           blurOnSubmit={true}
         />
       </View>
-      <Image style={styles.image} source={{ uri: picture}} />
+      <Image style={styles.image} source={{ uri: picture }} />
 
       <TouchableOpacity
         style={styles.button_container_photo}

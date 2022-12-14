@@ -10,7 +10,6 @@ import styles from "./Login.style";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authentication } from "../../firebase-config";
 const Login = (props) => {
-  console.log(props.navigation);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = () => {

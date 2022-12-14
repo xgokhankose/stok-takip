@@ -58,7 +58,6 @@ const ViewProduct = (props) => {
     );
   };
   const filterByCategory = () => {
-    console.log("girdi1")
     var tempData = [];
     if (selected.length > 0) {
       for (let a = 0; a < data.length; a++) {

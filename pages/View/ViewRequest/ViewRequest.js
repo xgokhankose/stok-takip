@@ -35,8 +35,7 @@ const ViewRequest = (props) => {
       })
     );
     setRefresh("2");
-    console.log(data);
-    console.log("req", requestData);
+   
   };
 
   const oldFirst = () => {
@@ -48,8 +47,7 @@ const ViewRequest = (props) => {
       })
     );
     setRefresh("3");
-    console.log(data);
-    console.log("req", requestData);
+  
   };
 
   const renderViewRequest = ({ item }) => {
