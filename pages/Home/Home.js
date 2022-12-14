@@ -5,6 +5,7 @@ import {  signOut ,getAuth} from "firebase/auth";
 import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 const Home = (props) => {
+  console.log("home",getAuth().currentUser)
   const navigateProductCategory = () => {
     return props.navigation.navigate("ProductCategoryPage");
   };
@@ -20,11 +21,10 @@ const Home = (props) => {
   const navigateViewProduct = () => {
     return props.navigation.navigate("ViewProduct");
   };
-  console.log(getAuth().currentUser)
   const logout = async() => {
     await signOut(getAuth())
-    console.log("çıkış yapıldı",getAuth().currentUser)
-    return props.navigation.navigate("LoginPage");
+    console.log("çıkış yapıldı")
+    return props.navigation.navigate("AuthStack");
   };
 
   return (

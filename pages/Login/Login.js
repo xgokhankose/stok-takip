@@ -11,16 +11,15 @@ import styles from "./Login.style";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authentication } from "../../firebase-config";
 import { getAuth } from "firebase/auth";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 const Login = (props) => {
+  console.log(props.navigation)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log(!!getAuth().currentUser);
   const handleLogin = () => {
-
     signInWithEmailAndPassword(authentication, email, password)
       .then(() => {
         console.log("account login !");
+        console.log("login",getAuth().currentUser)
         handleToHome();
       })
       .catch((error) => {
@@ -38,10 +37,6 @@ const Login = (props) => {
       props.navigation.navigate("HomeStack");
     }
   };
-
-  useEffect(() => {
-    handleToHome();
-  }, [!!getAuth().currentUser]);
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
