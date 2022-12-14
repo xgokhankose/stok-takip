@@ -18,10 +18,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
         {!isLogin ? <AuthStack /> : <HomeStack />}
-      </Stack.Navigator>
     </NavigationContainer>
   );
 }
-

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -10,17 +9,14 @@ import {
 import styles from "./Login.style";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authentication } from "../../firebase-config";
-import { getAuth } from "firebase/auth";
 const Login = (props) => {
-  console.log(props.navigation)
+  console.log(props.navigation);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = () => {
     signInWithEmailAndPassword(authentication, email, password)
       .then(() => {
         console.log("account login !");
-        console.log("login",getAuth().currentUser)
-        handleToHome();
       })
       .catch((error) => {
         console.log(error);
@@ -30,12 +26,6 @@ const Login = (props) => {
 
   const handleToCreate = () => {
     props.navigation.navigate("SignUpPage");
-  };
-
-  const handleToHome = () => {
-    if (!!getAuth().currentUser) {
-      props.navigation.navigate("HomeStack");
-    }
   };
 
   return (

@@ -1,11 +1,15 @@
 import Home from "../../pages/Home";
-import ProductCategory from "./pages/Add/ProductCategory";
-import Product from "./pages/Add/Product";
-import Request from "./pages/Add/Request";
-import RequestEdit from "./pages/Edit/RequestEdit";
-import ProductEdit from "./pages/Edit/ProductEdit";
-import ViewRequest from "./pages/View/ViewRequest";
-import ViewProduct from "./pages/View/ViewProduct";
+import ProductCategory from "../../pages/Add/ProductCategory";
+import Product from "../../pages/Add/Product";
+import Request from "../../pages/Add/Request";
+import RequestEdit from "../../pages/Edit/RequestEdit";
+import ProductEdit from "../../pages/Edit/ProductEdit";
+import ViewRequest from "../../pages/View/ViewRequest";
+import ViewProduct from "../../pages/View/ViewProduct";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+
+const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
   return (

@@ -23,8 +23,7 @@ const Home = (props) => {
   };
   const logout = async() => {
     await signOut(getAuth())
-    console.log("çıkış yapıldı")
-    return props.navigation.navigate("AuthStack");
+    return console.log("çıkış yapıldı")
   };
 
   return (
