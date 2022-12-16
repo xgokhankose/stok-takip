@@ -28,7 +28,7 @@ const ViewProduct = (props) => {
 
   const newFirst = () => {
     setRequestData(
-      data.sort((a, b) => {
+      requestData.sort((a, b) => {
         if (a.createdAt.seconds > b.createdAt.seconds) {
           return -1;
         }
@@ -40,7 +40,7 @@ const ViewProduct = (props) => {
 
   const oldFirst = () => {
     setRequestData(
-      data.sort((a, b) => {
+      requestData.sort((a, b) => {
         if (a.createdAt.seconds < b.createdAt.seconds) {
           return -1;
         }
