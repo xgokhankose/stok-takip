@@ -20,6 +20,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   deleteObject,
+  getStorage,
 } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import useGetSingleData from "../../../hooks/useGetSingleData";
@@ -37,10 +38,35 @@ const ProductEdit = (props) => {
   const [image, setImage] = useState(null);
 
   const [picture, setPicture] = useState(data.productPicture);
-  const [dbPicture, setDbPicture] = useState("");
   const [picturePath, setPicturePath] = useState("");
+  const [dataPicturePath, setDataPicturePath] = useState("");
 
   const { currentUser } = getAuth();
+  const { displayName } = currentUser;
+
+  const handleDelete = () =>
+    Alert.alert("Silmek istediğinize emin misiniz ?", "", [
+      {
+        text: "Hayır",
+      },
+      { text: "Evet", onPress: deleteData },
+    ]);
+
+  const deleteData = async () => {
+    const ref = doc(db, "products", props.route.params.id);
+    await setDoc(ref, {
+      productCategory: productCategory,
+      productName: productName,
+      productDescription: productDescription,
+      addPerson: data.addPerson,
+      createdAt: data.createdAt,
+      isActive: false,
+      productPicture: picture,
+      picturePath: data.picturePath,
+      deletedAt: new Date(),
+      deletedBy:displayName
+    }).then(Alert.alert("Ürün Başarıyla Silindi."));
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -85,29 +111,37 @@ const ProductEdit = (props) => {
       metadata
     );
     setPicturePath(uploadTask.metadata.fullPath);
-    var result = await getDownloadURL(uploadTask.ref);
+    var url = await getDownloadURL(uploadTask.ref);
+    const path = uploadTask.metadata.fullPath;
 
-    return result;
+    return [url, path];
+  };
+
+  const deleteFile = () => {
+    const storage = getStorage();
+    const desertRef = ref(storage, dataPicturePath);
+    deleteObject(desertRef).catch((error) => {
+      console.log(error);
+    });
   };
 
   const uptadeData = async () => {
     try {
-      const pictureURL = await uploadImage();
-      console.log(!!pictureURL);
+      const result = await uploadImage();
 
-      if (!!pictureURL) {
+      if (!!result[0]) {
         const ref = doc(db, "products", props.route.params.id);
+
         await setDoc(ref, {
           productCategory: productCategory,
           productName: productName,
           productDescription: productDescription,
-          productPicture: picture,
           addPerson: data.addPerson,
           createdAt: data.createdAt,
-          isActive: data.isActive,
-          productPicture: pictureURL,
-          picturePath: picturePath,
-        });
+          isActive: true,
+          productPicture: result[0],
+          picturePath: result[1],
+        }).then(deleteFile());
         Alert.alert("Ürün başarıyla güncellendi!");
       } else {
         const ref = doc(db, "products", props.route.params.id);
@@ -115,11 +149,10 @@ const ProductEdit = (props) => {
           productCategory: productCategory,
           productName: productName,
           productDescription: productDescription,
-          productPicture: picture,
           addPerson: data.addPerson,
           createdAt: data.createdAt,
           isActive: data.isActive,
-          productPicture: data.productPicture,
+          productPicture: picture,
           picturePath: data.picturePath,
         });
         Alert.alert("Ürün başarıyla güncellendi!");
@@ -136,6 +169,7 @@ const ProductEdit = (props) => {
       setProductDescription(data.productDescription),
       setProductCategory(data.productCategory);
     setPicture(data.productPicture);
+    setDataPicturePath(data.picturePath);
   }, [data]);
   return (
     <KeyboardAvoidingView
@@ -190,7 +224,7 @@ const ProductEdit = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button_container_red}
-        onPress={uptadeData}
+        onPress={handleDelete}
       >
         <Text style={styles.button_text}>Ürünü sil</Text>
       </TouchableOpacity>

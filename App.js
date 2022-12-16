@@ -5,8 +5,6 @@ import { getAuth } from "firebase/auth";
 import AuthStack from "./navigation/AuthStack";
 import HomeStack from "./navigation/HomeStack";
 
-const Stack = createNativeStackNavigator();
-
 export default function App() {
   const [isLogin, setIsLogin] = useState();
 
@@ -18,7 +16,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-        {!isLogin ? <AuthStack /> : <HomeStack />}
+      {!isLogin ? <AuthStack /> : <HomeStack />}
     </NavigationContainer>
   );
 }

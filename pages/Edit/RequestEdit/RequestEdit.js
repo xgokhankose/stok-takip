@@ -22,7 +22,6 @@ const RequestEdit = (props) => {
   const [productCategory, setProductCategory] = useState("undefined");
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
-  const [isActive, setIsActive] = useState(true);
 
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
@@ -40,7 +39,6 @@ const RequestEdit = (props) => {
     ]);
 
   const deleteData = async () => {
-    setIsActive(false);
     const ref = doc(db, "requests", props.route.params.id);
     setDoc(ref, {
       productCategory: productCategory,
@@ -48,9 +46,11 @@ const RequestEdit = (props) => {
       customerName: customerName,
       customerPhone: customerPhone,
       productDescription: productDescription,
-      addPerson: displayName,
+      addPerson: data.addPerson,
       createdAt: data.createdAt,
-      isActive: isActive,
+      isActive: false,
+      deletedAt: new Date(),
+      deletedBy:displayName
     }).then(Alert.alert("Talep Başarıyla Silindi."));
   };
 
@@ -66,7 +66,7 @@ const RequestEdit = (props) => {
         addPerson: data.addPerson,
         createdAt: data.createdAt,
         updatedAt: new Date(),
-        isActive: isActive,
+        isActive: true,
       });
       Alert.alert("Talep Başarıyla Güncellendi.");
     } catch (error) {

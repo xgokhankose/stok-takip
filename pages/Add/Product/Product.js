@@ -29,7 +29,7 @@ const Product = () => {
   const [productDescription, setProductDescription] = useState("");
   const [productCategory, setProductCategory] = useState("undefined");
   const [image, setImage] = useState(null);
-  const [picturePath,setPicturePath]= useState("")
+  const [picturePath, setPicturePath] = useState("");
 
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
@@ -75,10 +75,10 @@ const Product = () => {
       blobImage,
       metadata
     );
-    setPicturePath(uploadTask.metadata.fullPath)
-    const result = await getDownloadURL(uploadTask.ref);
-    
-    return result;
+    const url = await getDownloadURL(uploadTask.ref);
+    const path=uploadTask.metadata.fullPath
+
+    return [url, path];
   };
 
   const addData = async () => {
@@ -86,18 +86,19 @@ const Product = () => {
       if (productCategory == "undefined") {
         return Alert.alert("Gerekli alanları doldurunuz");
       }
-      const pictureURL = await uploadImage();
+      const result = await uploadImage();
+      
 
       await addDoc(collection(db, "products"), {
         productCategory: productCategory,
         productName: productName,
         productDescription: productDescription,
-        productPicture: pictureURL,
+        productPicture: result[0],
         addPerson: displayName,
         createdAt: new Date(),
         updatedAt: new Date(),
         isActive: true,
-        picturePath:picturePath
+        picturePath: result[1],
       });
       Alert.alert("Ürün başarıyla eklendi!");
     } catch (error) {
