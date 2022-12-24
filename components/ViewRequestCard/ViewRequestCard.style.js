@@ -14,11 +14,13 @@ export default StyleSheet.create({
   textData: {
     fontSize: 18,
     color: "white",
+    maxWidth:device.width*5/10
   },
   text: {
     color: "white",
     fontSize: 20,
     fontWeight: "bold",
+    
   },
   inner_container_light: {
     backgroundColor: "#624F82",
@@ -40,13 +42,13 @@ export default StyleSheet.create({
   description_container: {
     backgroundColor: "#624F82",
     flexDirection: "row",
-    height: 50,
+    height: 100,
     borderRadius: 5,
     margin: 1,
     padding: 4,
   },
   description_inner_container: {
-    width: 230,
+    maxWidth:device.width*5/10
   },
   bottom_container: {
     flexDirection: "row",
@@ -79,5 +81,10 @@ export default StyleSheet.create({
   },
   button_container:{
     flexDirection:"row",
+  },
+  bottom_container_text: {
+    textAlign: "left",
+    color: "#F0FF42",
+    maxWidth: device.width*7/10,
   },
 });

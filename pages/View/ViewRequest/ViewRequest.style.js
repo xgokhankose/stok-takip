@@ -38,31 +38,29 @@ export default StyleSheet.create({
   },
   selectlist_dropdown: {
     height: 150,
-    width: deviceSize.width - 80,
+    width: (deviceSize.width * 7) / 10,
     backgroundColor: "#373737",
   },
   selectlist_box: {
-    width: deviceSize.width - 80,
-    
+    width: (deviceSize.width * 7) / 10,
   },
   selectlist_container: {
     flexDirection: "row",
-    
-    justifyContent:"center",
-    alignItems:"cnter"
+    justifyContent: "center",
+    paddingTop: 5,
   },
-  filter_button:{
+  filter_button: {
     width: 60,
     height: 48,
     backgroundColor: "#38BA7D",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    marginLeft:4,
+    marginLeft: 4,
   },
-  seleclist_button_text:{
-    color:"white",
-    fontSize:17,
-    fontWeight:"bold"
+  seleclist_button_text: {
+    color: "white",
+    fontSize: 17,
+    fontWeight: "bold",
   },
 });

@@ -1,4 +1,4 @@
-import SignUp from "../../pages/Login";
+import SignUp from "../../pages/SignUp";
 import Login from "../../pages/Login";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 

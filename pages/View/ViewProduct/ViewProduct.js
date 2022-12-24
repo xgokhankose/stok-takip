@@ -113,6 +113,7 @@ const ViewProduct = (props) => {
                 dropdownTextStyles={{ color: "white", fontSize: 18 }}
                 boxStyles={styles.selectlist_box}
                 labelStyles={{ color: "white" }}
+                checkBoxStyles={{ backgroundColor:"white"}}
               />
               <TouchableOpacity
                 style={styles.filter_button}

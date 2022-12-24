@@ -34,16 +34,16 @@ const ViewProductCard = ({ product, onSelect }) => {
 
             <View style={styles.inner_container_light}>
               <View style={styles.text_container}>
-                <Text style={styles.text}>Ürün İsmi:</Text>
+                <Text  style={styles.text}>Ürün İsmi:</Text>
               </View>
-              <Text style={styles.textData}>{product.productName}</Text>
+              <Text numberOfLines={2} style={styles.textData}>{product.productName}</Text>
             </View>
             <View style={styles.description_container}>
               <View style={styles.text_container_description}>
                 <Text style={styles.text}>Ürün Açıklaması:</Text>
               </View>
               <View style={styles.description_inner_container}>
-                <Text style={styles.textData}>
+                <Text numberOfLines={5} style={styles.textData}>
                   {product.productDescription}
                 </Text>
               </View>
@@ -52,7 +52,7 @@ const ViewProductCard = ({ product, onSelect }) => {
         </View>
 
         <View style={styles.bottom_container}>
-          <Text style={{ textAlign: "left", color: "#F0FF42" }}>
+          <Text style={styles.bottom_container_text}>
             {product.addPerson} tarafından {dataDay}.{dataMonth+1}.{dataYear} tarihinde eklendi
           </Text>
           <View style={styles.button_container}>

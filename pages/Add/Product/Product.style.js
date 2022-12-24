@@ -7,6 +7,18 @@ export default StyleSheet.create({
     backgroundColor: "#262626",
     justifyContent: "center",
     alignItems: "center",
+    
+  },
+  scroll_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow:1
+  },
+  view_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: deviceSize.width,
+    height: (deviceSize.height * 8) / 10,
   },
   input: {
     height: 50,

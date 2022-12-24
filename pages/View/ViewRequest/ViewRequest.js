@@ -35,7 +35,6 @@ const ViewRequest = (props) => {
       })
     );
     setRefresh("2");
-   
   };
 
   const oldFirst = () => {
@@ -47,7 +46,6 @@ const ViewRequest = (props) => {
       })
     );
     setRefresh("3");
-  
   };
 
   const renderViewRequest = ({ item }) => {
@@ -118,6 +116,7 @@ const ViewRequest = (props) => {
                 dropdownTextStyles={{ color: "white", fontSize: 18 }}
                 boxStyles={styles.selectlist_box}
                 labelStyles={{ color: "white" }}
+                checkBoxStyles={{ backgroundColor:"white"}}
               />
               <TouchableOpacity
                 style={styles.filter_button}

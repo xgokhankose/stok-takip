@@ -8,6 +8,17 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  scroll_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow:1
+  },
+  view_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: deviceSize.width,
+    height: (deviceSize.height * 8) / 10,
+  },
   input: {
     height: 50,
     width: deviceSize.width - 80,
@@ -17,11 +28,10 @@ export default StyleSheet.create({
     borderRadius: 10,
     color: "white",
     fontSize: 18,
-    marginTop:1
-    
+    marginTop: 1,
   },
   button_container: {
-    backgroundColor: "green",
+    backgroundColor: "#3C9C70",
     height: 50,
     width: deviceSize.width - 80,
     justifyContent: "center",
@@ -64,7 +74,12 @@ export default StyleSheet.create({
     color: "white",
     width: deviceSize.width - 80,
   },
-  selectlist_box:{
-    marginBottom:20
-  }
+  selectlist_box: {
+    marginBottom: 20,
+  },
+  button_text:{
+    color:"white",
+    fontSize:15,
+    fontWeight:"bold"
+  },
 });

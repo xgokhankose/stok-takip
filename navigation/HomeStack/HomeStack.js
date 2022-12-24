@@ -39,7 +39,7 @@ const HomeStack = () => {
         name="ProductCategoryPage"
         component={ProductCategory}
         options={{
-          title: "TALEP KATEGORİSİ EKLE",
+          title: "ÜRÜN KATEGORİSİ EKLE",
         }}
       />
       <Stack.Screen

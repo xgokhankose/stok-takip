@@ -6,6 +6,8 @@ import {
   Text,
   Alert,
   KeyboardAvoidingView,
+  View,
+  ScrollView,
 } from "react-native";
 import styles from "./Product.style";
 import useGetData from "../../../hooks/useGetData";
@@ -19,6 +21,8 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { getAuth } from "firebase/auth";
+import { KeyboardAvoidingScrollView } from "react-native-keyboard-avoiding-scroll-view";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Product = () => {
   const category = "productCategory";
@@ -38,7 +42,7 @@ const Product = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [9, 16],
       quality: 1,
     });
 
@@ -76,7 +80,7 @@ const Product = () => {
       metadata
     );
     const url = await getDownloadURL(uploadTask.ref);
-    const path=uploadTask.metadata.fullPath
+    const path = uploadTask.metadata.fullPath;
 
     return [url, path];
   };
@@ -87,7 +91,6 @@ const Product = () => {
         return Alert.alert("Gerekli alanları doldurunuz");
       }
       const result = await uploadImage();
-      
 
       await addDoc(collection(db, "products"), {
         productCategory: productCategory,
@@ -108,42 +111,50 @@ const Product = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <Text style={{ margin: 5, color: "white" }}>ÜRÜN TÜRÜ SEÇİNİZ</Text>
-      <Text style={styles.necessary_text}>*Gerekli</Text>
-      <SelectList
-        setSelected={(val) => setProductCategory(val)}
-        data={categoryArray.map((item, index) => ({
-          key: index,
-          value: item.name,
-        }))}
-        save="value"
-        inputStyles={styles.selectList_input}
-        dropdownStyles={styles.selectList_dropdown}
-        dropdownTextStyles={{ color: "white", fontSize: 18 }}
-        placeholder="Ürün Türü Seçiniz"
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.scroll_container}>
+        <View style={styles.view_container}>
+          <Text style={{ margin: 5, color: "white" }}>ÜRÜN TÜRÜ SEÇİNİZ</Text>
+          <Text style={styles.necessary_text}>*Gerekli</Text>
+          <SelectList
+            setSelected={(val) => setProductCategory(val)}
+            data={categoryArray.map((item, index) => ({
+              key: index,
+              value: item.name,
+            }))}
+            save="value"
+            inputStyles={styles.selectList_input}
+            dropdownStyles={styles.selectList_dropdown}
+            dropdownTextStyles={{ color: "white", fontSize: 18 }}
+            placeholder="Ürün Türü Seçiniz"
+          />
 
-      <TextInput
-        onChangeText={(text) => setProductName(text)}
-        style={styles.input}
-        placeholder="Ürün İsmi"
-        placeholderTextColor={"#898989"}
-      />
-      <TextInput
-        onChangeText={(text) => setProductDescription(text)}
-        style={styles.input_description}
-        placeholder="Ürün Açıklaması"
-        placeholderTextColor={"#898989"}
-        multiline={true}
-        blurOnSubmit={true}
-      />
-      <TouchableOpacity style={styles.button_container} onPress={pickImage}>
-        <Text style={styles.button_text}>Fotoğraf Ekle</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button_container} onPress={addData}>
-        <Text style={styles.button_text}>Ürün Ekle</Text>
-      </TouchableOpacity>
+          <TextInput
+            onChangeText={(text) => setProductName(text)}
+            style={styles.input}
+            placeholder="Ürün İsmi"
+            placeholderTextColor={"#898989"}
+          />
+
+          <TextInput
+            onChangeText={(text) => setProductDescription(text)}
+            style={styles.input_description}
+            placeholder="Ürün Açıklaması"
+            placeholderTextColor={"#898989"}
+            multiline={true}
+            blurOnSubmit={true}
+          />
+          <TouchableOpacity style={styles.button_container} onPress={pickImage}>
+            <Text style={styles.button_text}>Fotoğraf Ekle</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button_container} onPress={addData}>
+            <Text style={styles.button_text}>Ürün Ekle</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };

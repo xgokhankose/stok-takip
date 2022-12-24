@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Alert,
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
 import styles from "./SignUp.style";
 import {
@@ -14,6 +16,7 @@ import {
 } from "firebase/auth";
 import { authentication } from "../../firebase-config";
 import KeyboardAvoidingView from "react-native/Libraries/Components/Keyboard/KeyboardAvoidingView";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -22,11 +25,11 @@ const SignUp = () => {
   const [name, setName] = useState("");
 
   const handleCreateAccount = () => {
-    if(password!=passwordConfirm){
-      return Alert.alert("Şifreler birbiriyle uyuşmuyor.")
+    if (password != passwordConfirm) {
+      return Alert.alert("Şifreler birbiriyle uyuşmuyor.");
     }
-    if(name.length<3){
-      return Alert.alert("Lütfen isim ve soy ismi giriniz.")
+    if (name.length < 3) {
+      return Alert.alert("Lütfen isim ve soy ismi giriniz.");
     }
     createUserWithEmailAndPassword(authentication, email, password)
       .then((userCredential) => {
@@ -42,40 +45,52 @@ const SignUp = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <TextInput
-        onChangeText={(text) => setEmail(text)}
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor={"#898989"}
-      />
-      <TextInput
-        secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
-        style={styles.input}
-        placeholder="Şifre"
-        placeholderTextColor={"#898989"}
-      />
-      <TextInput
-        secureTextEntry={true}
-        onChangeText={(text) => setPasswordConfirm(text)}
-        style={styles.input}
-        placeholder="Şifre"
-        placeholderTextColor={"#898989"}
-      />
-      <TextInput
-        onChangeText={(text) => setName(text)}
-        style={styles.input}
-        placeholder="Ad Soyad"
-        placeholderTextColor={"#898989"}
-      />
-      <TouchableOpacity
-        onPress={handleCreateAccount}
-        style={styles.button_container}
+ 
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.container}
       >
-        <Text style={{ color: "white" }}>Kayıt Ol</Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
+        <ScrollView contentContainerStyle={styles.scroll_container}>
+        <View style={styles.view_container}>
+        <TextInput
+          onChangeText={(text) => setEmail(text)}
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor={"#898989"}
+          autoComplete={ Platform.OS === 'web' ? 'none' : 'off' }
+        />
+        <TextInput
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+          style={styles.input}
+          placeholder="Şifre"
+          placeholderTextColor={"#898989"}
+          autoComplete={ Platform.OS === 'web' ? 'none' : 'off' }
+        />
+        <TextInput
+          secureTextEntry={true}
+          onChangeText={(text) => setPasswordConfirm(text)}
+          style={styles.input}
+          placeholder="Şifre"
+          placeholderTextColor={"#898989"}
+          autoComplete={ Platform.OS === 'web' ? 'none' : 'off' }
+        />
+        <TextInput
+          onChangeText={(text) => setName(text)}
+          style={styles.input}
+          placeholder="Ad Soyad"
+          placeholderTextColor={"#898989"}
+          autoComplete={ Platform.OS === 'web' ? 'none' : 'off' }
+        />
+        <TouchableOpacity
+          onPress={handleCreateAccount}
+          style={styles.button_container}
+        >
+          <Text style={{ color: "white" }}>Kayıt Ol</Text>
+        </TouchableOpacity>
+        </View>
+      </ScrollView>
+      </KeyboardAvoidingView>
   );
 };
 export default SignUp;

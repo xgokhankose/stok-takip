@@ -32,27 +32,26 @@ export default StyleSheet.create({
   },
   selectlist_input: {
     height: 22,
-    width: deviceSize.width - 30,
+    width: deviceSize.width - 150,
     color: "white",
     fontSize: 18,
   },
   selectlist_dropdown: {
     height: 150,
-    width: deviceSize.width - 80,
+    width: deviceSize.width*7/10,
     backgroundColor: "#373737",
   },
   selectlist_box: {
-    width: deviceSize.width - 80,
+    width: deviceSize.width*7/10,
     
   },
   selectlist_container: {
     flexDirection: "row",
-    
     justifyContent:"center",
-    alignItems:"cnter"
+    paddingTop:5
   },
   filter_button:{
-    width: 60,
+    width: deviceSize.width*1.5/10,
     height: 48,
     backgroundColor: "#38BA7D",
     justifyContent: "center",

@@ -28,7 +28,7 @@ const Login = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
       <TextInput
         onChangeText={(text) => setEmail(text)}
         style={styles.input}
