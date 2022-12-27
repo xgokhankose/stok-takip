@@ -8,6 +8,9 @@ import {
   KeyboardAvoidingView,
   View,
   Image,
+  ActivityIndicator,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
 import { db } from "../../../firebase-config";
 import styles from "./ProductEdit.style";
@@ -40,6 +43,7 @@ const ProductEdit = (props) => {
   const [picture, setPicture] = useState(data.productPicture);
   const [picturePath, setPicturePath] = useState("");
   const [dataPicturePath, setDataPicturePath] = useState("");
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
@@ -53,6 +57,7 @@ const ProductEdit = (props) => {
     ]);
 
   const deleteData = async () => {
+    setIsUpdated(true);
     const ref = doc(db, "products", props.route.params.id);
     await setDoc(ref, {
       productCategory: productCategory,
@@ -64,8 +69,10 @@ const ProductEdit = (props) => {
       productPicture: picture,
       picturePath: data.picturePath,
       deletedAt: new Date(),
-      deletedBy:displayName
+      deletedBy: displayName,
     }).then(Alert.alert("Ürün Başarıyla Silindi."));
+    setIsUpdated(false);
+    props.navigation.navigate("HomePage");
   };
 
   const pickImage = async () => {
@@ -86,7 +93,6 @@ const ProductEdit = (props) => {
     if (!image) {
       return "";
     }
-
     const blobImage = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
@@ -126,6 +132,7 @@ const ProductEdit = (props) => {
   };
 
   const uptadeData = async () => {
+    setIsUpdated(true);
     try {
       const result = await uploadImage();
 
@@ -143,6 +150,8 @@ const ProductEdit = (props) => {
           picturePath: result[1],
         }).then(deleteFile());
         Alert.alert("Ürün başarıyla güncellendi!");
+        setIsUpdated(false);
+        props.navigation.navigate("HomePage");
       } else {
         const ref = doc(db, "products", props.route.params.id);
         await setDoc(ref, {
@@ -156,12 +165,15 @@ const ProductEdit = (props) => {
           picturePath: data.picturePath,
         });
         Alert.alert("Ürün başarıyla güncellendi!");
+        setIsUpdated(false);
+        props.navigation.navigate("HomePage");
       }
 
       Alert.alert("Ürün başarıyla güncellendi!");
     } catch (error) {
       console.log(error);
       Alert.alert("Ürün güncellenirken beklenmedik bir hata oluştu!");
+      setIsUpdated(false);
     }
   };
   useEffect(() => {
@@ -172,63 +184,72 @@ const ProductEdit = (props) => {
     setDataPicturePath(data.picturePath);
   }, [data]);
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      focusable={false}
-      style={styles.container}
-    >
-      <Text style={{ margin: 5, color: "white" }}>ÜRÜN TÜRÜ SEÇİNİZ</Text>
-      <SelectList
-        setSelected={(val) => setProductCategory(val)}
-        data={categoryArray.map((item, index) => ({
-          value: item.name,
-        }))}
-        save="value"
-        inputStyles={styles.selectList_input}
-        dropdownStyles={styles.selectList_dropdown}
-        dropdownTextStyles={{ color: "white", fontSize: 18 }}
-        placeholder={productCategory}
-      />
+          <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={styles.container}
+        >
+            <ScrollView contentContainerStyle={styles.scroll_container}>
+              <Text style={{ margin: 5, color: "white" }}>
+                ÜRÜN TÜRÜ SEÇİNİZ
+              </Text>
+              <SelectList
+                setSelected={(val) => setProductCategory(val)}
+                data={categoryArray.map((item, index) => ({
+                  value: item.name,
+                }))}
+                save="value"
+                inputStyles={styles.selectList_input}
+                dropdownStyles={styles.selectList_dropdown}
+                dropdownTextStyles={{ color: "white", fontSize: 18 }}
+                placeholder={productCategory}
+              />
 
-      <TextInput
-        onChangeText={(text) => setProductName(text)}
-        style={styles.input}
-        placeholder="Ürün İsmi"
-        placeholderTextColor={"#898989"}
-        value={productName}
-      />
-      <View style={styles.description_container}>
-        <TextInput
-          onChangeText={(text) => setProductDescription(text)}
-          style={styles.input_description}
-          placeholder="Ürün Açıklaması"
-          placeholderTextColor={"#898989"}
-          value={productDescription}
-          multiline={true}
-          blurOnSubmit={true}
-        />
-      </View>
-      <Image style={styles.image} source={{ uri: picture }} />
-
-      <TouchableOpacity
-        style={styles.button_container_photo}
-        onPress={pickImage}
-      >
-        <Text style={styles.button_text_photo}>Yeni bir fotoğraf ekle</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button_container_green}
-        onPress={uptadeData}
-      >
-        <Text style={styles.button_text}>Ürünü güncelle</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button_container_red}
-        onPress={handleDelete}
-      >
-        <Text style={styles.button_text}>Ürünü sil</Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
+              <TextInput
+                onChangeText={(text) => setProductName(text)}
+                style={styles.input}
+                placeholder="Ürün İsmi"
+                placeholderTextColor={"#898989"}
+                value={productName}
+              />
+              <View style={styles.description_container}>
+                <TextInput
+                  onChangeText={(text) => setProductDescription(text)}
+                  style={styles.input_description}
+                  placeholder="Ürün Açıklaması"
+                  placeholderTextColor={"#898989"}
+                  value={productDescription}
+                  multiline={true}
+                  blurOnSubmit={true}
+                />
+              </View>
+              <Image style={styles.image} source={{ uri: picture }} />
+              
+              <TouchableOpacity
+                style={styles.button_container_photo}
+                onPress={pickImage}
+              >
+                <Text style={styles.button_text_photo}>
+                  Yeni bir fotoğraf ekle
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button_container_green}
+                onPress={uptadeData}
+              >
+                {isUpdated ? (
+                  <ActivityIndicator size="large" color="yellow" />
+                ) : (
+                  <Text style={styles.button_text}>Ürünü Güncelle</Text>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button_container_red}
+                onPress={handleDelete}
+              >
+                <Text style={styles.button_text}>Ürünü sil</Text>
+              </TouchableOpacity>
+            </ScrollView>
+        </KeyboardAvoidingView>
   );
 };
 export default ProductEdit;

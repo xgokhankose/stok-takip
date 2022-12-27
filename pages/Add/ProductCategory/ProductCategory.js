@@ -1,3 +1,4 @@
+import { getAuth } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore/lite";
 import React, { useState } from "react";
 import {
@@ -10,7 +11,8 @@ import {
 import { db } from "../../../firebase-config";
 import styles from "./ProductCategory.style";
 
-const ProductCategory = () => {
+const ProductCategory = (props) => {
+  console.log(getAuth().currentUser)
   const [productName, setProductName] = useState("");
   const addData = async () => {
     await addDoc(collection(db, "productCategory"), {
@@ -18,7 +20,8 @@ const ProductCategory = () => {
       isActive: true,
     })
       .then(Alert.alert("ÜRÜN KATEGORİSİ BAŞARIYLA EKLENDİ"))
-      .then(setProductName(""));
+      .then(setProductName(""))
+      .then(props.navigation.navigate("HomePage"))
   };
   return (
     <KeyboardAvoidingView

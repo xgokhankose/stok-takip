@@ -8,6 +8,17 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  scroll_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow:1,
+  },
+  view_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: deviceSize.width,
+    height: (deviceSize.height * 8) / 10,
+  },
   input: {
     height: 50,
     width: deviceSize.width - 80,

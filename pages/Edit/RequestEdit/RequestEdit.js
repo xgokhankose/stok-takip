@@ -6,6 +6,9 @@ import {
   Text,
   Alert,
   KeyboardAvoidingView,
+  ActivityIndicator,
+  ScrollView,
+  View,
 } from "react-native";
 import { db } from "../../../firebase-config";
 import styles from "./RequestEdit.style";
@@ -20,8 +23,10 @@ const RequestEdit = (props) => {
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productCategory, setProductCategory] = useState("undefined");
+
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
@@ -40,7 +45,7 @@ const RequestEdit = (props) => {
 
   const deleteData = async () => {
     const ref = doc(db, "requests", props.route.params.id);
-    setDoc(ref, {
+    await setDoc(ref, {
       productCategory: productCategory,
       productName: productName,
       customerName: customerName,
@@ -50,11 +55,14 @@ const RequestEdit = (props) => {
       createdAt: data.createdAt,
       isActive: false,
       deletedAt: new Date(),
-      deletedBy:displayName
-    }).then(Alert.alert("Talep Başarıyla Silindi."));
+      deletedBy: displayName,
+    })
+      .then(Alert.alert("Talep Başarıyla Silindi."))
+      .then(props.navigation.navigate("HomePage"));
   };
 
   const updateData = async () => {
+    setIsUpdated(true);
     try {
       const ref = doc(db, "requests", props.route.params.id);
       await setDoc(ref, {
@@ -69,9 +77,12 @@ const RequestEdit = (props) => {
         isActive: true,
       });
       Alert.alert("Talep Başarıyla Güncellendi.");
+      setIsUpdated(false);
+      props.navigation.navigate("HomePage");
     } catch (error) {
       console.log(error);
       Alert.alert("Talep güncellenirken beklenmedik bir hata oluştu!");
+      setIsUpdated(false);
     }
   };
   useEffect(() => {
@@ -82,64 +93,75 @@ const RequestEdit = (props) => {
       setCustomerPhone(data.customerPhone);
   }, [data]);
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <Text style={{ margin: 5, color: "white" }}>ÜRÜN TÜRÜ SEÇİNİZ</Text>
-      <SelectList
-        setSelected={(value) => setProductCategory(value)}
-        data={categoryArray.map((item, index) => ({
-          value: item.name,
-        }))}
-        save="name"
-        inputStyles={styles.selectList_input}
-        dropdownStyles={styles.selectList_dropdown}
-        dropdownTextStyles={{ color: "white", fontSize: 18 }}
-        placeholder={productCategory}
-        value={productCategory}
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.scroll_container}>
+        <View style={styles.view_container}>
+          <Text style={{ margin: 5, color: "white" }}>ÜRÜN TÜRÜ SEÇİNİZ</Text>
+          <SelectList
+            setSelected={(value) => setProductCategory(value)}
+            data={categoryArray.map((item, index) => ({
+              value: item.name,
+            }))}
+            save="name"
+            inputStyles={styles.selectList_input}
+            dropdownStyles={styles.selectList_dropdown}
+            dropdownTextStyles={{ color: "white", fontSize: 18 }}
+            placeholder={productCategory}
+            value={productCategory}
+          />
 
-      <TextInput
-        onChangeText={(text) => setProductName(text)}
-        style={styles.input}
-        placeholder="Ürün İsmi"
-        placeholderTextColor={"#898989"}
-        value={productName}
-      />
-      <TextInput
-        onChangeText={(text) => setCustomerName(text)}
-        style={styles.input}
-        placeholder="Müşteri İsmi"
-        placeholderTextColor={"#898989"}
-        value={customerName}
-      />
-      <TextInput
-        onChangeText={(text) => setCustomerPhone(text)}
-        style={styles.input}
-        placeholder="Müşteri Telefon Numarası"
-        placeholderTextColor={"#898989"}
-        value={customerPhone}
-      />
-      <TextInput
-        onChangeText={(text) => setProductDescription(text)}
-        style={styles.input_description}
-        placeholder="Talep Açıklaması"
-        placeholderTextColor={"#898989"}
-        value={productDescription}
-        multiline={true}
-        blurOnSubmit={true}
-      />
+          <TextInput
+            onChangeText={(text) => setProductName(text)}
+            style={styles.input}
+            placeholder="Ürün İsmi"
+            placeholderTextColor={"#898989"}
+            value={productName}
+          />
+          <TextInput
+            onChangeText={(text) => setCustomerName(text)}
+            style={styles.input}
+            placeholder="Müşteri İsmi"
+            placeholderTextColor={"#898989"}
+            value={customerName}
+          />
+          <TextInput
+            onChangeText={(text) => setCustomerPhone(text)}
+            style={styles.input}
+            placeholder="Müşteri Telefon Numarası"
+            placeholderTextColor={"#898989"}
+            value={customerPhone}
+          />
+          <TextInput
+            onChangeText={(text) => setProductDescription(text)}
+            style={styles.input_description}
+            placeholder="Talep Açıklaması"
+            placeholderTextColor={"#898989"}
+            value={productDescription}
+            multiline={true}
+            blurOnSubmit={true}
+          />
 
-      <TouchableOpacity
-        style={styles.button_container_green}
-        onPress={updateData}
-      >
-        <Text style={styles.button_text}>Güncelle</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button_container_red}
-        onPress={handleDelete}
-      >
-        <Text style={styles.button_text}>Sil</Text>
-      </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button_container_green}
+            onPress={updateData}
+          >
+            {isUpdated ? (
+              <ActivityIndicator size="large" color="yellow" />
+            ) : (
+              <Text style={styles.button_text}>Güncelle</Text>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button_container_red}
+            onPress={handleDelete}
+          >
+            <Text style={styles.button_text}>Sil</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };

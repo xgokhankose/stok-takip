@@ -2,11 +2,25 @@ import { StyleSheet, Dimensions } from "react-native";
 const deviceSize = Dimensions.get("window");
 
 export default StyleSheet.create({
+  
   container: {
     flex: 1,
-    backgroundColor: "#262626",
+    backgroundColor:"#262626",
     justifyContent: "center",
     alignItems: "center",
+  },
+  scroll_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    
+    flexGrow: 1,
+    paddingHorizontal:20,
+  },
+  view_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: deviceSize.width,
+    height: (deviceSize.height * 8) / 10,
   },
   input: {
     height: 50,
@@ -61,7 +75,7 @@ export default StyleSheet.create({
   image: {
     width: 135,
     height: 240,
-    resizeMode: "contain",
+    resizeMode: "cover",
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 5,
@@ -74,7 +88,8 @@ export default StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     marginTop: 10,
-  },button_container_photo: {
+  },
+  button_container_photo: {
     backgroundColor: "#262626",
     height: 50,
     width: deviceSize.width - 80,

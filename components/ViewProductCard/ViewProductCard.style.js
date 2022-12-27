@@ -82,10 +82,12 @@ export default StyleSheet.create({
     width: (device.width * 3) / 10,
     height: (device.width * 64) / 90,
     borderRadius: 5,
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   inner_container: {
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   inner_data_container: {
     flexDirection: "column",
@@ -93,6 +95,6 @@ export default StyleSheet.create({
   bottom_container_text: {
     textAlign: "left",
     color: "#F0FF42",
-    maxWidth: device.width*7/10,
+    maxWidth: (device.width * 7) / 10,
   },
 });

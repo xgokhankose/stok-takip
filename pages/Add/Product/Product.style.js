@@ -38,6 +38,7 @@ export default StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     marginTop: 10,
+    flexDirection:"row"
   },
   signup_button: {
     margin: 40,

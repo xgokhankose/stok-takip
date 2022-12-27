@@ -11,9 +11,10 @@ import ViewRequestCard from "../../../components/ViewRequestCard";
 import useGetData from "../../../hooks/useGetData";
 import styles from "./ViewRequest.style";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
+import Loading from "../../../components/Loading";
 
 const ViewRequest = (props) => {
-  const { data } = useGetData("requests");
+  const { data, loading } = useGetData("requests");
 
   const [requestData, setRequestData] = useState("");
   const [refresh, setRefresh] = useState("");
@@ -78,6 +79,10 @@ const ViewRequest = (props) => {
   useEffect(() => {
     setRequestData(data);
   }, [data]);
+  
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -116,7 +121,7 @@ const ViewRequest = (props) => {
                 dropdownTextStyles={{ color: "white", fontSize: 18 }}
                 boxStyles={styles.selectlist_box}
                 labelStyles={{ color: "white" }}
-                checkBoxStyles={{ backgroundColor:"white"}}
+                checkBoxStyles={{ backgroundColor: "white" }}
               />
               <TouchableOpacity
                 style={styles.filter_button}

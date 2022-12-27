@@ -22,6 +22,7 @@ const ViewProduct = (props) => {
   const categoryData = useGetData("productCategory");
   const categoryArray = categoryData.data;
 
+
   const handleProductSelect = (id) => {
     props.navigation.navigate("ProductEditPage", { id });
   };
@@ -35,7 +36,6 @@ const ViewProduct = (props) => {
       })
     );
     setRefresh("2");
-  
   };
 
   const oldFirst = () => {
@@ -78,6 +78,9 @@ const ViewProduct = (props) => {
   useEffect(() => {
     setRequestData(data);
   }, [data]);
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -113,7 +116,7 @@ const ViewProduct = (props) => {
                 dropdownTextStyles={{ color: "white", fontSize: 18 }}
                 boxStyles={styles.selectlist_box}
                 labelStyles={{ color: "white" }}
-                checkBoxStyles={{ backgroundColor:"white"}}
+                checkBoxStyles={{ backgroundColor: "white" }}
               />
               <TouchableOpacity
                 style={styles.filter_button}

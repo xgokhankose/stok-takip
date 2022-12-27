@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   View,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import styles from "./Product.style";
 import useGetData from "../../../hooks/useGetData";
@@ -18,11 +19,11 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject,
 } from "firebase/storage";
 import { getAuth } from "firebase/auth";
-import { KeyboardAvoidingScrollView } from "react-native-keyboard-avoiding-scroll-view";
-import { SafeAreaView } from "react-native-safe-area-context";
+
+import { useNavigation } from "@react-navigation/native";
+
 
 const Product = () => {
   const category = "productCategory";
@@ -33,10 +34,16 @@ const Product = () => {
   const [productDescription, setProductDescription] = useState("");
   const [productCategory, setProductCategory] = useState("undefined");
   const [image, setImage] = useState(null);
-  const [picturePath, setPicturePath] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadImageUrl, setUploadImageUrl] = useState([
+    "undefined",
+    "undefined",
+  ]);
 
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
+
+  const navigation = useNavigation();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -53,7 +60,7 @@ const Product = () => {
 
   const uploadImage = async () => {
     if (!image) {
-      return "";
+      return ["",""];
     }
 
     const blobImage = await new Promise((resolve, reject) => {
@@ -81,17 +88,25 @@ const Product = () => {
     );
     const url = await getDownloadURL(uploadTask.ref);
     const path = uploadTask.metadata.fullPath;
+    
+    
 
     return [url, path];
   };
 
   const addData = async () => {
+    setIsLoading(true);
+
     try {
       if (productCategory == "undefined") {
+        setIsLoading(false);
         return Alert.alert("Gerekli alanları doldurunuz");
       }
-      const result = await uploadImage();
+      
+      const result = await uploadImage()
 
+      
+      
       await addDoc(collection(db, "products"), {
         productCategory: productCategory,
         productName: productName,
@@ -104,9 +119,14 @@ const Product = () => {
         picturePath: result[1],
       });
       Alert.alert("Ürün başarıyla eklendi!");
+      setIsLoading(false);
+      
+      setImage(undefined)
+      navigation.goBack()
     } catch (error) {
       console.log(error);
       Alert.alert("Ürün eklenirken beklenmedik bir hata oluştu!");
+      setIsLoading(false);
     }
   };
 
@@ -151,7 +171,11 @@ const Product = () => {
             <Text style={styles.button_text}>Fotoğraf Ekle</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button_container} onPress={addData}>
-            <Text style={styles.button_text}>Ürün Ekle</Text>
+            {isLoading ? (
+              <ActivityIndicator size="large" color="yellow" />
+            ) : (
+              <Text style={styles.button_text}>Ürün Ekle</Text>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>

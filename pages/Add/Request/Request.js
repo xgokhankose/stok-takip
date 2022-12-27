@@ -9,17 +9,18 @@ import {
   KeyboardAvoidingView,
   View,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { db } from "../../../firebase-config";
 import styles from "./Request.style";
 import useGetData from "../../../hooks/useGetData";
 import { SelectList } from "react-native-dropdown-select-list";
 import { getAuth } from "firebase/auth";
-import { KeyboardAvoidingScrollView } from "react-native-keyboard-avoiding-scroll-view";
+import { useNavigation } from "@react-navigation/native";
 
 import Loading from "../../../components/Loading";
 
-const Request = () => {
+const Request = (props) => {
   const category = "productCategory";
   const categoryData = useGetData(category);
   const categoryArray = categoryData.data;
@@ -29,17 +30,21 @@ const Request = () => {
   const [productCategory, setProductCategory] = useState("undefined");
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
 
+  const navigation = useNavigation();
+
   const addData = async () => {
+    setIsLoading(true);
     if (
       customerPhone.length < 6 ||
       customerName.length < 3 ||
       productCategory == "undefined"
     ) {
+      setIsLoading(false);
       return Alert.alert("Gerekli alanları doldurunuz");
     }
     await addDoc(collection(db, "requests"), {
@@ -52,15 +57,12 @@ const Request = () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       isActive: true,
-    })
-      .then(Alert.alert("Talep Başarıyla Eklendi."))
-      .then(
-        setProductName(""),
-        setProductDescription(""),
-        setProductCategory("undefined"),
-        setCustomerName(""),
-        setCustomerPhone("")
-      );
+    });
+    Alert.alert("Talep Başarıyla Eklendi.");
+
+    navigation.goBack();
+
+    setIsLoading(false);
   };
 
   return (
@@ -87,7 +89,6 @@ const Request = () => {
             boxStyles={styles.selectlist_box}
           />
 
-          
           <TextInput
             onChangeText={(text) => setProductName(text)}
             style={styles.input}
@@ -95,7 +96,6 @@ const Request = () => {
             placeholderTextColor={"#898989"}
             value={productName}
           />
-
 
           <Text style={styles.necessary_text}>*Gerekli</Text>
           <TextInput
@@ -124,7 +124,11 @@ const Request = () => {
           />
 
           <TouchableOpacity style={styles.button_container} onPress={addData}>
-            <Text style={styles.button_text}>Talep Ekle</Text>
+            {isLoading ? (
+              <ActivityIndicator size="large" color="yellow" />
+            ) : (
+              <Text style={styles.button_text}>Talep Ekle</Text>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>
