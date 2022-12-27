@@ -127,7 +127,7 @@ const Request = (props) => {
             {isLoading ? (
               <ActivityIndicator size="large" color="yellow" />
             ) : (
-              <Text style={styles.button_text}>Talep Ekle</Text>
+              <Text style={styles.button_text}>Talep ekle</Text>
             )}
           </TouchableOpacity>
         </View>

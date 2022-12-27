@@ -48,6 +48,10 @@ const ProductEdit = (props) => {
   const { currentUser } = getAuth();
   const { displayName } = currentUser;
 
+  const fullScreenImage = () => {
+    props.navigation.navigate("ViewImagePage", { url: picture });
+  };
+
   const handleDelete = () =>
     Alert.alert("Silmek istediğinize emin misiniz ?", "", [
       {
@@ -184,72 +188,71 @@ const ProductEdit = (props) => {
     setDataPicturePath(data.picturePath);
   }, [data]);
   return (
-          <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={styles.container}
-        >
-            <ScrollView contentContainerStyle={styles.scroll_container}>
-              <Text style={{ margin: 5, color: "white" }}>
-                ÜRÜN TÜRÜ SEÇİNİZ
-              </Text>
-              <SelectList
-                setSelected={(val) => setProductCategory(val)}
-                data={categoryArray.map((item, index) => ({
-                  value: item.name,
-                }))}
-                save="value"
-                inputStyles={styles.selectList_input}
-                dropdownStyles={styles.selectList_dropdown}
-                dropdownTextStyles={{ color: "white", fontSize: 18 }}
-                placeholder={productCategory}
-              />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.scroll_container}>
+        <Text style={{ margin: 5, color: "white" }}>ÜRÜN TÜRÜ SEÇİNİZ</Text>
+        <SelectList
+          setSelected={(val) => setProductCategory(val)}
+          data={categoryArray.map((item, index) => ({
+            value: item.name,
+          }))}
+          save="value"
+          inputStyles={styles.selectList_input}
+          dropdownStyles={styles.selectList_dropdown}
+          dropdownTextStyles={{ color: "white", fontSize: 18 }}
+          placeholder={productCategory}
+        />
 
-              <TextInput
-                onChangeText={(text) => setProductName(text)}
-                style={styles.input}
-                placeholder="Ürün İsmi"
-                placeholderTextColor={"#898989"}
-                value={productName}
-              />
-              <View style={styles.description_container}>
-                <TextInput
-                  onChangeText={(text) => setProductDescription(text)}
-                  style={styles.input_description}
-                  placeholder="Ürün Açıklaması"
-                  placeholderTextColor={"#898989"}
-                  value={productDescription}
-                  multiline={true}
-                  blurOnSubmit={true}
-                />
-              </View>
-              <Image style={styles.image} source={{ uri: picture }} />
-              
-              <TouchableOpacity
-                style={styles.button_container_photo}
-                onPress={pickImage}
-              >
-                <Text style={styles.button_text_photo}>
-                  Yeni bir fotoğraf ekle
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button_container_green}
-                onPress={uptadeData}
-              >
-                {isUpdated ? (
-                  <ActivityIndicator size="large" color="yellow" />
-                ) : (
-                  <Text style={styles.button_text}>Ürünü Güncelle</Text>
-                )}
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button_container_red}
-                onPress={handleDelete}
-              >
-                <Text style={styles.button_text}>Ürünü sil</Text>
-              </TouchableOpacity>
-            </ScrollView>
-        </KeyboardAvoidingView>
+        <TextInput
+          onChangeText={(text) => setProductName(text)}
+          style={styles.input}
+          placeholder="Ürün İsmi"
+          placeholderTextColor={"#898989"}
+          value={productName}
+        />
+        <View style={styles.description_container}>
+          <TextInput
+            onChangeText={(text) => setProductDescription(text)}
+            style={styles.input_description}
+            placeholder="Ürün Açıklaması"
+            placeholderTextColor={"#898989"}
+            value={productDescription}
+            multiline={true}
+            blurOnSubmit={true}
+          />
+        </View>
+
+        <TouchableOpacity onPress={fullScreenImage}>
+          <Image style={styles.image} source={{ uri: picture }} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button_container_photo}
+          onPress={pickImage}
+        >
+          <Text style={styles.button_text_photo}>Yeni bir fotoğraf ekle</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button_container_green}
+          onPress={uptadeData}
+        >
+          {isUpdated ? (
+            <ActivityIndicator size="large" color="yellow" />
+          ) : (
+            <Text style={styles.button_text}>Ürünü Güncelle</Text>
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button_container_red}
+          onPress={handleDelete}
+        >
+          <Text style={styles.button_text}>Ürünü sil</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 export default ProductEdit;

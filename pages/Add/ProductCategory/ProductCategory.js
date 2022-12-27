@@ -36,7 +36,7 @@ const ProductCategory = (props) => {
         value={productName}
       />
       <TouchableOpacity style={styles.button_container} onPress={addData}>
-        <Text style={styles.button_text}>Kategori Ekle</Text>
+        <Text style={styles.button_text}>Kategori ekle</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );

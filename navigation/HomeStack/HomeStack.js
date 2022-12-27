@@ -7,6 +7,7 @@ import ProductEdit from "../../pages/Edit/ProductEdit";
 import ViewRequest from "../../pages/View/ViewRequest";
 import ViewProduct from "../../pages/View/ViewProduct";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ViewImage from "../../pages/View/ViewImage";
 
 
 const Stack = createNativeStackNavigator();
@@ -75,6 +76,13 @@ const HomeStack = () => {
         component={RequestEdit}
         options={{
           title: "TALEP DÜZENLE",
+        }}
+      />
+      <Stack.Screen
+        name="ViewImagePage"
+        component={ViewImage}
+        options={{
+          title: "",
         }}
       />
     </Stack.Navigator>

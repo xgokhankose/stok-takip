@@ -168,13 +168,14 @@ const Product = () => {
             blurOnSubmit={true}
           />
           <TouchableOpacity style={styles.button_container} onPress={pickImage}>
-            <Text style={styles.button_text}>Fotoğraf Ekle</Text>
+          {!!image ? <Text style={styles.button_text}>Yeni bir fotoğraf ekle</Text>:<Text style={styles.button_text}>Fotoğraf ekle</Text>}
+            
           </TouchableOpacity>
           <TouchableOpacity style={styles.button_container} onPress={addData}>
             {isLoading ? (
               <ActivityIndicator size="large" color="yellow" />
             ) : (
-              <Text style={styles.button_text}>Ürün Ekle</Text>
+              <Text style={styles.button_text}>Ürün ekle</Text>
             )}
           </TouchableOpacity>
         </View>

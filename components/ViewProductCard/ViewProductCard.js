@@ -8,21 +8,26 @@ import {
 import React from "react";
 import styles from "./ViewProductCard.style";
 const ViewProductCard = ({ product, onSelect }) => {
+  
+  
+
   if (!product.isActive) {
     return;
   }
-  var date = new Date(product.createdAt.seconds*1000)
- var dataMonth= date.getMonth()
- var dataDay= date.getDate()
- var dataYear=date.getFullYear()
+  var date = new Date(product.createdAt.seconds * 1000);
+  var dataMonth = date.getMonth();
+  var dataDay = date.getDate();
+  var dataYear = date.getFullYear();
   return (
     <View>
       <View style={styles.container}>
         <View style={styles.inner_container}>
-          <Image
-            style={styles.image}
-            source={{ uri: product.productPicture }}
-          />
+          <TouchableOpacity onPress={null}>
+            <Image
+              style={styles.image}
+              source={{ uri: product.productPicture }}
+            />
+          </TouchableOpacity>
 
           <View style={styles.inner_data_container}>
             <View style={styles.inner_container_light}>
@@ -34,9 +39,11 @@ const ViewProductCard = ({ product, onSelect }) => {
 
             <View style={styles.inner_container_light}>
               <View style={styles.text_container}>
-                <Text  style={styles.text}>Ürün İsmi:</Text>
+                <Text style={styles.text}>Ürün İsmi:</Text>
               </View>
-              <Text numberOfLines={2} style={styles.textData}>{product.productName}</Text>
+              <Text numberOfLines={2} style={styles.textData}>
+                {product.productName}
+              </Text>
             </View>
             <View style={styles.description_container}>
               <View style={styles.text_container_description}>
@@ -53,7 +60,8 @@ const ViewProductCard = ({ product, onSelect }) => {
 
         <View style={styles.bottom_container}>
           <Text style={styles.bottom_container_text}>
-            {product.addPerson} tarafından {dataDay}.{dataMonth+1}.{dataYear} tarihinde eklendi
+            {product.addPerson} tarafından {dataDay}.{dataMonth + 1}.{dataYear}{" "}
+            tarihinde eklendi
           </Text>
           <View style={styles.button_container}>
             <TouchableOpacity onPress={onSelect} style={styles.button_update}>
