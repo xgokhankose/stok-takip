@@ -7,9 +7,15 @@ import {
 } from "react-native";
 import React from "react";
 import styles from "./ViewProductCard.style";
+import { useNavigation } from "@react-navigation/native";
 const ViewProductCard = ({ product, onSelect }) => {
   
-  
+  const navigation = useNavigation()
+  console.log(navigation.canGoBack())
+
+  const fullScreenImage = () => {
+    navigation.navigate("ViewImagePage", { url: product.productPicture });
+  };
 
   if (!product.isActive) {
     return;
@@ -22,7 +28,7 @@ const ViewProductCard = ({ product, onSelect }) => {
     <View>
       <View style={styles.container}>
         <View style={styles.inner_container}>
-          <TouchableOpacity onPress={null}>
+          <TouchableOpacity onPress={fullScreenImage}>
             <Image
               style={styles.image}
               source={{ uri: product.productPicture }}

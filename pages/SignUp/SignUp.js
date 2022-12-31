@@ -25,6 +25,9 @@ const SignUp = () => {
   const [name, setName] = useState("");
 
   const handleCreateAccount = () => {
+    if (email.length < 3) {
+      return Alert.alert("Lütfen bir email giriniz.");
+    }
     if (password != passwordConfirm) {
       return Alert.alert("Şifreler birbiriyle uyuşmuyor.");
     }

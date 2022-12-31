@@ -8,6 +8,7 @@ import ViewRequest from "../../pages/View/ViewRequest";
 import ViewProduct from "../../pages/View/ViewProduct";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ViewImage from "../../pages/View/ViewImage";
+import ViewProductCard from "../../components/ViewProductCard";
 
 
 const Stack = createNativeStackNavigator();
@@ -85,6 +86,7 @@ const HomeStack = () => {
           title: "",
         }}
       />
+     
     </Stack.Navigator>
   );
 };
