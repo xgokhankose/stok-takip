@@ -11,7 +11,6 @@ import { useNavigation } from "@react-navigation/native";
 const ViewProductCard = ({ product, onSelect }) => {
   
   const navigation = useNavigation()
-  console.log(navigation.canGoBack())
 
   const fullScreenImage = () => {
     navigation.navigate("ViewImagePage", { url: product.productPicture });

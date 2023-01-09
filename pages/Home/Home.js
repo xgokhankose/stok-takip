@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import styles from "./Home.style";
-import {  signOut ,getAuth} from "firebase/auth";
+import { signOut, getAuth } from "firebase/auth";
 import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 const Home = (props) => {
@@ -18,11 +18,14 @@ const Home = (props) => {
     return props.navigation.navigate("ViewRequestPage");
   };
   const navigateViewProduct = () => {
-    return props.navigation.navigate("ViewProduct");
+    return props.navigation.navigate("ViewProductPage");
   };
-  const logout = async() => {
-    await signOut(getAuth())
-    return console.log("çıkış yapıldı")
+  const navigateViewProductCategory = () => {
+    return props.navigation.navigate("ViewProductCategoryPage");
+  };
+  const logout = async () => {
+    await signOut(getAuth());
+    return console.log("çıkış yapıldı");
   };
 
   return (
@@ -48,15 +51,18 @@ const Home = (props) => {
           <Text style={styles.add_button_text}>ÜRÜN EKLE</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={navigateViewProductCategory}
+          style={styles.view_button}
+        >
+          <Text style={styles.add_button_text}>ÜRÜN KATEGORİLERİ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={navigateProductCategory}
           style={styles.add_button}
         >
           <Text style={styles.add_button_text}>ÜRÜN KATEGORİSİ EKLE</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={logout}
-          style={styles.exit_button}
-        >
+        <TouchableOpacity onPress={logout} style={styles.exit_button}>
           <Text style={styles.add_button_text}>ÇIKIŞ YAP</Text>
         </TouchableOpacity>
       </View>

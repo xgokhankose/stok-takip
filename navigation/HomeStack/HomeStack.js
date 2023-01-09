@@ -8,7 +8,7 @@ import ViewRequest from "../../pages/View/ViewRequest";
 import ViewProduct from "../../pages/View/ViewProduct";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ViewImage from "../../pages/View/ViewImage";
-import ViewProductCard from "../../components/ViewProductCard";
+import ViewProductCategory from "../../pages/View/ViewProductCategory";
 
 
 const Stack = createNativeStackNavigator();
@@ -45,7 +45,14 @@ const HomeStack = () => {
         }}
       />
       <Stack.Screen
-        name="ViewProduct"
+        name="ViewProductCategoryPage"
+        component={ViewProductCategory}
+        options={{
+          title: "ÜRÜN KATEGORİLERİ",
+        }}
+      />
+      <Stack.Screen
+        name="ViewProductPage"
         component={ViewProduct}
         options={{
           title: "ÜRÜNLER",

@@ -1,6 +1,6 @@
 import SignUp from "../../pages/SignUp";
-import Login from "../../pages/Login";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SignIn from "../../pages/SignIn";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +14,7 @@ const AuthStack = () => {
         title: "",
       }}
     >
-      <Stack.Screen name="LoginPage" component={Login} />
+      <Stack.Screen name="LoginPage" component={SignIn} />
       <Stack.Screen name="SignUpPage" component={SignUp} />
     </Stack.Navigator>
   );

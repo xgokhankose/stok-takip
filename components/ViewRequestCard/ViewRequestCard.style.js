@@ -37,7 +37,7 @@ export default StyleSheet.create({
     padding: 4,
   },
   text_container: {
-    width: 150,
+    width: device.width*3/10
   },
   description_container: {
     backgroundColor: "#624F82",

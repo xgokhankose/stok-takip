@@ -5,21 +5,27 @@ import {
   TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
-import styles from "./Login.style";
+import styles from "./SignIn.style";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authentication } from "../../firebase-config";
-const Login = (props) => {
+const SignIn = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogin = () => {
+    setIsLoading(true);
     signInWithEmailAndPassword(authentication, email, password)
       .then(() => {
         console.log("account login !");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
         Alert.alert(error.message);
+        setIsLoading(false);
       });
   };
 
@@ -28,7 +34,10 @@ const Login = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+    >
       <TextInput
         onChangeText={(text) => setEmail(text)}
         style={styles.input}
@@ -44,7 +53,11 @@ const Login = (props) => {
       />
 
       <TouchableOpacity onPress={handleLogin} style={styles.button_container}>
-        <Text style={{ color: "white" }}>Giriş Yap</Text>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="yellow" />
+        ) : (
+          <Text style={{ color: "white" }}>Kayıt Ol</Text>
+        )}
       </TouchableOpacity>
       <TouchableOpacity onPress={handleToCreate} style={styles.signup_button}>
         <Text style={{ color: "white" }}>Hesap Oluştur</Text>
@@ -52,4 +65,4 @@ const Login = (props) => {
     </KeyboardAvoidingView>
   );
 };
-export default Login;
+export default SignIn;

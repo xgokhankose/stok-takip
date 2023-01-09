@@ -85,7 +85,7 @@ const ViewProduct = (props) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={requestData}
-        ListEmptyComponent={<Text>Bekleyen bir istek yok.</Text>}
+        ListEmptyComponent={<Text>Ürün yok.</Text>}
         renderItem={renderViewProduct}
         extraData={refresh}
         ListHeaderComponent={

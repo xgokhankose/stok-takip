@@ -12,7 +12,6 @@ import { db } from "../../../firebase-config";
 import styles from "./ProductCategory.style";
 
 const ProductCategory = (props) => {
-  console.log(getAuth().currentUser)
   const [productName, setProductName] = useState("");
   const addData = async () => {
     await addDoc(collection(db, "productCategory"), {

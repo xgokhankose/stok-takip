@@ -14,7 +14,7 @@ export default StyleSheet.create({
   add_button: {
     width: 300,
     height: 40,
-    backgroundColor: "lime",
+    backgroundColor: "#38BA7D",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -23,21 +23,22 @@ export default StyleSheet.create({
   view_button: {
     width: 300,
     height: 40,
-    backgroundColor: "yellow",
+    backgroundColor: "#624F82",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     margin:10,
+    
   },
   add_button_text: {
-    fontSize: 25,
-    color: "black",
+    fontSize: 23,
+    color: "white",
     fontWeight:"bold"
   },
   exit_button:{
     width: 300,
     height: 40,
-    backgroundColor: "red",
+    backgroundColor: "#E44641",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
