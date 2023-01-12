@@ -6,24 +6,24 @@ export default StyleSheet.create({
     flex: 1,
     padding: 4,
     margin: 10,
-    backgroundColor: "#3F3B6C",
-    borderRadius: 15,
+    backgroundColor: "#DADDD8",
+    borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",
   },
   textData: {
     fontSize: 18,
-    color: "white",
+    color: "black",
   },
   text: {
-    color: "white",
+    color: "black",
     fontSize: 20,
     fontWeight: "bold",
   },
   inner_container_light: {
-    backgroundColor: "#624F82",
+    backgroundColor: "#EEF0F2",
     flexDirection: "column",
-    borderRadius: 5,
+    borderRadius: 3,
     margin: 5,
     padding: 4,
     width: device.width * (5 / 10),
@@ -33,10 +33,10 @@ export default StyleSheet.create({
     width: 230,
   },
   description_container: {
-    backgroundColor: "#624F82",
+    backgroundColor: "#EEF0F2",
     flexDirection: "column",
     height: 180,
-    borderRadius: 5,
+    borderRadius: 3,
     margin: 5,
     padding: 4,
     width: device.width * (5 / 10),
@@ -59,7 +59,7 @@ export default StyleSheet.create({
     backgroundColor: "#38BA7D",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 3,
   },
   button_delete: {
     width: 60,
@@ -67,7 +67,7 @@ export default StyleSheet.create({
     backgroundColor: "#F34541",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 3,
     marginRight: 5,
   },
   button_text: {
@@ -81,7 +81,7 @@ export default StyleSheet.create({
   image: {
     width: (device.width * 3) / 10,
     height: (device.width * 64) / 90,
-    borderRadius: 5,
+    borderRadius: 3,
     resizeMode: "cover",
   },
   inner_container: {
@@ -94,7 +94,7 @@ export default StyleSheet.create({
   },
   bottom_container_text: {
     textAlign: "left",
-    color: "#F0FF42",
+    color: "green",
     maxWidth: (device.width * 7) / 10,
   },
 });

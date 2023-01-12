@@ -1,27 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   FlatList,
   SafeAreaView,
   Text,
   View,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import Loading from "../../../components/Loading";
 import ViewProductCard from "../../../components/ViewProductCard";
 import useGetData from "../../../hooks/useGetData";
 import styles from "./ViewProduct.style";
-import { MultipleSelectList } from "react-native-dropdown-select-list";
-
+import Icon from "react-native-vector-icons/MaterialIcons";
+import SectionedMultiSelect from "react-native-sectioned-multi-select";
 const ViewProduct = (props) => {
+  const deviceSize = Dimensions.get("window");
+
   const { data, loading } = useGetData("products");
 
   const [requestData, setRequestData] = useState("");
   const [refresh, setRefresh] = useState("");
   const [selected, setSelected] = useState([]);
+  const [listShown, setListShown] = useState(false);
 
   const categoryData = useGetData("productCategory");
   const categoryArray = categoryData.data;
-
 
   const handleProductSelect = (id) => {
     props.navigation.navigate("ProductEditPage", { id });
@@ -58,11 +61,21 @@ const ViewProduct = (props) => {
     );
   };
   const filterByCategory = () => {
-    var tempData = [];
+    var selectedData = [];
     if (selected.length > 0) {
-      for (let a = 0; a < data.length; a++) {
+      for (let a = 0; a < categoryArray.length; a++) {
         for (let b = 0; b < selected.length; b++) {
-          if (data[a].productCategory == selected[b]) {
+          if (categoryArray[a].id == selected[b]) {
+            selectedData.push(categoryArray[a].name);
+          }
+        }
+      }
+    }
+    var tempData = [];
+    if (selectedData.length > 0) {
+      for (let a = 0; a < data.length; a++) {
+        for (let b = 0; b < selectedData.length; b++) {
+          if (data[a].productCategory == selectedData[b]) {
             tempData.push(data[a]);
           }
         }
@@ -75,6 +88,13 @@ const ViewProduct = (props) => {
     }
   };
 
+  const multiSelectRef = useRef(null);
+
+  const resetFilter = () => {
+    setSelected();
+    setRequestData(data);
+    setRefresh("6");
+  };
   useEffect(() => {
     setRequestData(data);
   }, [data]);
@@ -85,44 +105,47 @@ const ViewProduct = (props) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={requestData}
-        ListEmptyComponent={<Text>Ürün yok.</Text>}
+        ListEmptyComponent={<Text style={styles.flatlist_text}>Ürün yok.</Text>}
         renderItem={renderViewProduct}
         extraData={refresh}
         ListHeaderComponent={
           <View>
             <View style={styles.button_container}>
               <TouchableOpacity style={styles.date_button} onPress={newFirst}>
-                <Text style={styles.button_text}>
-                  Tarihe göre sırala{"\n"}(Önce en yeni talep)
-                </Text>
+                <Text style={styles.button_text}>Tarihe göre önce yeni</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.date_button} onPress={oldFirst}>
-                <Text style={styles.button_text}>
-                  Tarihe göre sırala{"\n"}(Önce en eski talep)
-                </Text>
+                <Text style={styles.button_text}>Tarihe göre önce eski</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.selectlist_container}>
-              <MultipleSelectList
-                setSelected={(val) => setSelected(val)}
-                data={categoryArray.map((item, index) => ({
-                  key: index,
-                  value: item.name,
-                }))}
-                save="value"
-                label="Seçilen kategoriler:"
-                inputStyles={styles.selectlist_input}
-                dropdownStyles={styles.selectlist_dropdown}
-                dropdownTextStyles={{ color: "white", fontSize: 18 }}
-                boxStyles={styles.selectlist_box}
-                labelStyles={{ color: "white" }}
-                checkBoxStyles={{ backgroundColor: "white" }}
+              <SectionedMultiSelect
+                hideTags
+                IconRenderer={Icon}
+                items={categoryArray}
+                uniqueKey="id"
+                onSelectedItemsChange={(val) => setSelected(val)}
+                selectedItems={selected}
+                ref={multiSelectRef}
+                confirmText="Tamam"
+                selectText="Kategori Seç"
+                selectedText="Seçilen"
+                searchPlaceholderText="Ara..."
+                searchPlaceholderTextColor="red"
+                itemBackground="#EADDCA"
+                styles={styles.allstyles}
               />
               <TouchableOpacity
-                style={styles.filter_button}
+                style={styles.filter_button_green}
                 onPress={filterByCategory}
               >
                 <Text style={styles.seleclist_button_text}>Filtrele</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.filter_button_red}
+                onPress={resetFilter}
+              >
+                <Text style={styles.seleclist_button_text}>Sıfırla</Text>
               </TouchableOpacity>
             </View>
           </View>

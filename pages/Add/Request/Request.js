@@ -88,7 +88,7 @@ const Request = (props) => {
             placeholder="Seçiniz"
             boxStyles={styles.selectlist_box}
           />
-
+          
           <TextInput
             onChangeText={(text) => setProductName(text)}
             style={styles.input}

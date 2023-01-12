@@ -8,31 +8,30 @@ export default StyleSheet.create({
     flex: 1,
     padding: 10,
     margin: 10,
-    backgroundColor: "#3F3B6C",
-    borderRadius: 15,
+    backgroundColor: "#DADDD8",
+    borderRadius: 6,
   },
   textData: {
     fontSize: 18,
-    color: "white",
+    color: "black",
     maxWidth:device.width*5/10
   },
   text: {
-    color: "white",
+    color: "black",
     fontSize: 20,
     fontWeight: "bold",
     
   },
   inner_container_light: {
-    backgroundColor: "#624F82",
+    backgroundColor: "#EEF0F2",
     flexDirection: "row",
-    borderRadius: 5,
+    borderRadius: 3,
     margin: 1,
     padding: 4,
   },
   inner_container_dark: {
     flexDirection: "row",
-    borderRadius: 5,
-    borderRadius: 5,
+    borderRadius: 3,
     margin: 1,
     padding: 4,
   },
@@ -40,10 +39,10 @@ export default StyleSheet.create({
     width: device.width*3/10
   },
   description_container: {
-    backgroundColor: "#624F82",
+    backgroundColor: "#EEF0F2",
     flexDirection: "row",
     height: 100,
-    borderRadius: 5,
+    borderRadius: 3,
     margin: 1,
     padding: 4,
   },
@@ -84,7 +83,7 @@ export default StyleSheet.create({
   },
   bottom_container_text: {
     textAlign: "left",
-    color: "#F0FF42",
+    color: "green",
     maxWidth: device.width*7/10,
   },
 });

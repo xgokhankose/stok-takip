@@ -13,7 +13,7 @@ const ViewProductCategoryCard = ({ category }) => {
       },
       { text: "Evet", onPress: deleteData },
     ]);
-
+  
   const deleteData = async () => {
     const ref = doc(db, "productCategory", category.id);
     await setDoc(ref, {

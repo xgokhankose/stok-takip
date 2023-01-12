@@ -27,7 +27,8 @@ const HomeStack = () => {
         name="HomePage"
         component={Home}
         options={{
-          title: "ANASAYFA",
+          title: "",
+          headerShadowVisible:false
         }}
       />
       <Stack.Screen
