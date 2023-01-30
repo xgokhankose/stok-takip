@@ -8,12 +8,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDZzZnFcy5VY2n1TasJhQCPYWijJ34tZpg",
-  authDomain: "stok-takip-835a3.firebaseapp.com",
-  projectId: "stok-takip-835a3",
-  storageBucket: "stok-takip-835a3.appspot.com",
-  messagingSenderId: "899188217654",
-  appId: "1:899188217654:web:e35a7ff0580fb2fee1c597",
+  apiKey: "apiKey",
+  authDomain: "authDomain",
+  projectId: "projectId",
+  storageBucket: "storageBucket",
+  messagingSenderId: "messagingSenderId",
+  appId: "appId",
 };
 const app = initializeApp(firebaseConfig);
 export const authentication = getAuth(app);
